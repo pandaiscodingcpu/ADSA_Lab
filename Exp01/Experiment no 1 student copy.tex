@@ -1,0 +1,227 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{hyperref} % clickable URLs
+\setlength{\headheight}{2cm}
+\setlength{\headsep}{0.5 cm}
+\newcommand{\subjectname}{Advanced Data Structures and Algorithms (DJS23APE302)}
+\onehalfspacing
+\pagestyle{fancy}
+\fancyhf{} % clear default header/footer
+\fancyhead[C]{\includegraphics[width=0.9\textwidth,height=2.5cm,keepaspectratio]{college_header.JPG}}
+\fancyfoot[L]{\textbf{Subject:} \subjectname}
+\fancyfoot[R]{\thepage}
+\begin{document}
+\begin{center} 
+    \large \textbf{Department of Artificial Intelligence and Machine Learning}\\
+    \Large \textbf{Experiment No.: 1} \\
+    \large \textbf{Experiment on Amortized Analysis.}
+\end{center}
+
+\section*{Aim}
+To perform Amortized Analysis using Aggregate, Accounting and Potential Methods.
+\section*{Objectives}
+
+\begin{itemize}
+\item To understand the concept of amortized analysis.
+\item To analyze the average cost of operations over a sequence of operations.
+\item To study Aggregate Method.
+\item To study Accounting Method.
+\item To study Potential Method.
+\item To compare all three amortized analysis techniques.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Theory}
+
+Amortized analysis is a technique used in algorithm analysis to determine the average time complexity per operation over a sequence of operations rather than considering the worst-case complexity of a single operation. It guarantees that although some operations may be expensive, the average cost remains low over time.
+
+Unlike average-case analysis, amortized analysis does not depend on probability. Instead, it provides a deterministic bound on the total cost of performing a sequence of operations.
+
+There are three common methods of amortized analysis:
+
+\subsection*{1. Aggregate Method}
+
+The Aggregate Method analyzes the total cost of a sequence of operations and divides it by the total number of operations.
+
+Suppose an algorithm performs $n$ operations with a total cost $T(n)$.
+
+The amortized cost is
+
+\[
+\text{Amortized Cost}
+=
+\frac{T(n)}{n}
+\]
+
+For example, if inserting $n$ elements into a dynamic array requires a total of $3n$ operations,
+
+\[
+\text{Amortized Cost}
+=
+\frac{3n}{n}
+=
+3
+=
+O(1)
+\]
+
+Thus, although resizing occasionally takes linear time, each insertion has constant amortized complexity.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{2. Accounting Method}
+
+The Accounting Method assigns an artificial cost (or charge) to each operation.
+
+\begin{itemize}
+\item Cheap operations are charged extra.
+\item The extra amount is stored as credit.
+\item Expensive operations use the accumulated credit.
+\end{itemize}
+
+The total credit is always non-negative.
+
+For example,
+
+Actual insertion cost
+\[
+=1
+\]
+
+Charged cost
+\[
+=3
+\]
+
+Extra credit stored
+\[
+=2
+\]
+
+When resizing occurs, the stored credits pay for copying the elements.
+
+This method proves that every insertion has
+
+\[
+O(1)
+\]
+
+amortized complexity.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{3. Potential Method}
+
+The Potential Method assigns a potential value to the data structure.
+
+Potential represents stored work that can pay for future expensive operations.
+
+The amortized cost is calculated as
+
+\[
+\hat{c_i}
+=
+c_i
++
+\Phi(D_i)
+-
+\Phi(D_{i-1})
+\]
+
+where
+
+\begin{itemize}
+\item $c_i$ = Actual cost
+\item $\Phi(D_i)$ = Potential after operation
+\item $\Phi(D_{i-1})$ = Potential before operation
+\end{itemize}
+
+A commonly used potential function for a dynamic array is
+
+\[
+\Phi = 2 \times \text{Number of Elements}
+-
+\text{Capacity}
+\]
+
+This ensures that the amortized cost remains constant even when resizing occurs.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Algorithm}
+
+\textbf{Step 1:} Start.
+
+\textbf{Step 2:} Initialize a dynamic array.
+
+\textbf{Step 3:} Insert elements one by one.
+
+\textbf{Step 4:} Double the array size whenever it becomes full.
+
+\textbf{Step 5:} Calculate:
+
+\begin{itemize}
+\item Actual Cost
+\item Aggregate Cost
+\item Accounting Cost
+\item Potential Cost
+\end{itemize}
+
+\textbf{Step 6:} Display the amortized costs.
+
+\textbf{Step 7:} Stop.
+
+\subsection*{Problem Statement}
+\begin{enumerate}
+\item You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]). 
+Find two lines that together with the x-axis form a container, such that the container contains the most water. Return the maximum amount of water a container can store. Notice that you may not slant the container.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{1-1.JPG}
+    \caption{Container With Most Water Illustration}
+    \label{fig:container}
+\end{figure}
+\item You are maintaining a project that has n methods numbered from 0 to n - 1. You are given two integers n and k, and a 2D integer array invocations, where invocations[i] = [ai, bi] indicates that method ai invokes method bi. There is a known bug in method k. Method k, along with any method invoked by it, either directly or indirectly, are considered suspicious and we aim to remove them. A group of methods can only be removed if no method outside the group invokes any methods within it. Return an array containing all the remaining methods after removing all the suspicious methods. You may return the answer in any order. If it is not possible to remove all the suspicious methods, none should be removed.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{1-2.JPG}
+    \caption{Project Illustration}
+    \label{fig:project}
+\end{figure}
+\end{enumerate}
+\section*{Viva Questions}
+
+\begin{enumerate}
+\item What is amortized analysis?
+\item Why is amortized analysis better than worst-case analysis?
+\item What is the Aggregate Method?
+\item Explain the Accounting Method.
+\item What is a potential function?
+\item Give examples where amortized analysis is used.
+\item Differentiate between amortized and average-case analysis.
+\end{enumerate}
+\section*{References}
+
+\begin{enumerate}
+    \item Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein, \textit{Introduction to Algorithms}, 4th Edition, MIT Press, 2022. (Chapter 17: Amortized Analysis)
+
+    \item Mark Allen Weiss, \textit{Data Structures and Algorithm Analysis in C++}, 4th Edition, Pearson Education, 2014.
+
+    \item Ellis Horowitz, Sartaj Sahni, and Susan Anderson-Freed, \textit{Fundamentals of Data Structures in C++}, 2nd Edition, Universities Press, 2008.
+
+    \item Alfred V. Aho, John E. Hopcroft, and Jeffrey D. Ullman, \textit{Data Structures and Algorithms}, Addison-Wesley, 1983.
+
+    \item MIT OpenCourseWare, "Introduction to Algorithms (Amortized Analysis)", Available at:
+    \url{https://ocw.mit.edu/courses/6-006-introduction-to-algorithms/}
+
+\end{enumerate}
+\end{document}
+
